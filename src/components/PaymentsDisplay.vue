@@ -1,5 +1,6 @@
 <template>
   <div class="list">
+    <div>Totoal Value: {{ getFullvalue }}</div>
     <div class="itemHead">
       <span>#</span>
       <span>Date</span>
@@ -23,6 +24,11 @@ export default {
     list: {
       type: Array,
       default: () => [],
+    },
+  },
+  computed: {
+    getFullvalue() {
+      return this.$store.getters.getFullPaymentValue;
     },
   },
 };

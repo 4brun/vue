@@ -7,7 +7,7 @@
       <main>
         <button @click="showForm = !showForm">ADD NEW COAST +</button>
         <div class="content">
-          <PaymentsDisplay :list="paymentsList" />
+          <PaymentsDisplay :list="getPaymentsList" />
         </div>
       </main>
       <PaymentAdd v-if="showForm" :list="paymentsList" />
@@ -20,6 +20,7 @@
 import PaymentsDisplay from "./components/PaymentsDisplay";
 import PaymentAdd from "./components/PaymentAdd.vue";
 import Pagination from "./components/Pagination.vue";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -35,6 +36,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations(["setPaymentsListData"]),
     fetchData() {
       return [
         {
@@ -52,66 +54,16 @@ export default {
           category: "Food",
           value: 532,
         },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
-        {
-          date: "24.03.2020",
-          category: "Food",
-          value: 532,
-        },
       ];
     },
   },
+  computed: {
+    ...mapGetters(["getPaymentsList"]),
+  },
   created() {
-    this.paymentsList = this.fetchData();
+    // this.paymentsList = this.fetchData();
+    this.setPaymentsListData(this.fetchData());
+    this.$store.dispatch("fetchData");
   },
 };
 </script>
