@@ -12,7 +12,7 @@ export default new Vuex.Store({
       setPaymentsListData(state, payload) {
          // Vue.set(state.paymentsList, 0, payload)
 
-         state.paymentsList = payload
+         state.paymentsList = [...payload, ...state.paymentsList]
       },
       addDataToPaymentsList(state, payload) {
          state.paymentsList.push(payload)
@@ -51,7 +51,7 @@ export default new Vuex.Store({
                      value: 532,
                   },
                ])
-            }, 1000)
+            }, 0)
          })
             .then(res => {
                commit('setPaymentsListData', res)

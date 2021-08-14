@@ -28,6 +28,7 @@ export default {
   },
   computed: {
     getFullvalue() {
+      console.log(this.list);
       return this.$store.getters.getFullPaymentValue;
     },
   },

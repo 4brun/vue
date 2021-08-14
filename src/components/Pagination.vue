@@ -1,8 +1,8 @@
 <template>
   <div class="pagination">
-    <button @click="prevPage">Prev</button>
-    <button v-for="p in pageCount" :key="p">{{ p }}</button>
-    <button @click="nextPage">Next</button>
+    <button @click="newPage(count - 1)">Prev</button>
+    <button v-for="p in pageCount" :key="p" @click="newPage(p)">{{ p }}</button>
+    <button @click="newPage(count + 1)">Next</button>
   </div>
 </template>
 
@@ -19,6 +19,7 @@ export default {
       type: Number,
       default: 5,
     },
+    count: Number,
   },
   data() {
     return {
@@ -26,11 +27,17 @@ export default {
     };
   },
   methods: {
-    nextPage() {
-      this.pageNumber++;
-    },
-    prevPage() {
-      this.pageNumber--;
+    // nextPage() {
+    //   this.pageNumber++;
+    // },
+    // prevPage() {
+    //   this.pageNumber--;
+    // },
+    newPage(page) {
+      if (page < 1 || page > this.pageCount || page === this.count) {
+        return;
+      }
+      this.$emit("paginate", page);
     },
   },
   computed: {
@@ -38,11 +45,6 @@ export default {
       let l = this.list.length,
         s = this.size;
       return Math.ceil(l / s);
-    },
-    getButtons() {
-      const start = this.pageNumber * this.size,
-        end = start + this.size;
-      return this.list.slice(start, end);
     },
   },
 };

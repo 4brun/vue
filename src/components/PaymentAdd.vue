@@ -1,7 +1,9 @@
 <template>
   <div>
     <select v-model="category">
-      <option v-for="option in options" :value="option" :key="option"></option>
+      <option v-for="option in options" :value="option" :key="option">
+        {{ option }}
+      </option>
     </select>
     <!-- <input type="text" placeholder="Payment description" v-model="category" /> -->
     <input type="number" placeholder="Payment amount" v-model.number="value" />
@@ -54,7 +56,17 @@ export default {
     },
   },
   created() {
-    this.fetchCategoryList();
+    if (this.$route.params?.category) {
+      const userItem = {
+        date: this.getCurrentDate,
+        category: this.$route.params.category,
+        value: Number(this.$route.query.value) || 0,
+      };
+      (this.category = userItem.category), (this.value = userItem.value);
+      this.addDataToPaymentsList(userItem);
+      this.$router.push("/");
+      console.log(userItem);
+    }
   },
 };
 </script>
