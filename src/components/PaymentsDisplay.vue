@@ -13,6 +13,7 @@
       <span>{{ item.date }}</span>
       <span>{{ item.category }}</span>
       <span>{{ item.value }}</span>
+      <span @click="modalMenu()">...</span>
     </div>
   </div>
 </template>
@@ -26,9 +27,27 @@ export default {
       default: () => [],
     },
   },
+  methods: {
+    modalMenu() {
+      const items = [
+        {
+          text: "Редактировать",
+          action: () => {
+            console.log("edit");
+          },
+        },
+        {
+          text: "Удалить",
+          action: () => {
+            console.log("delete");
+          },
+        },
+      ];
+      this.$context.show({ items });
+    },
+  },
   computed: {
     getFullvalue() {
-      console.log(this.list);
       return this.$store.getters.getFullPaymentValue;
     },
   },
@@ -41,13 +60,13 @@ export default {
 }
 .item {
   display: grid;
-  grid-template-columns: 0.25fr 1fr 1fr 1fr;
+  grid-template-columns: 0.25fr 1fr 1fr 1fr 0.25fr;
   margin: 10px 0;
   border-bottom: 1px solid rgb(194, 194, 194);
 }
 .itemHead {
   display: grid;
   font-weight: 600;
-  grid-template-columns: 0.25fr 1fr 1fr 1fr;
+  grid-template-columns: 0.25fr 1fr 1fr 1fr 0.25fr;
 }
 </style>

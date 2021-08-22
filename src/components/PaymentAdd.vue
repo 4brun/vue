@@ -49,7 +49,7 @@ export default {
       const newItem = {
         date: this.date || this.getCurrentDate,
         category: this.category,
-        value: this.value,
+        value: Number(this.value),
       };
       // this.list.push(newItem);
       this.addDataToPaymentsList(newItem);

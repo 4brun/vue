@@ -1,13 +1,12 @@
 <template>
   <div>
     <main>
-      <button @click="showForm = !showForm">ADD NEW COAST +</button>
+      <button @click="showModalAddWindow">ADD NEW COAST +</button>
       <div class="content">
         <PaymentsDisplay :list="newPaymentList" />
       </div>
     </main>
-
-    <PaymentAdd v-if="showForm" :list="paymentsList" />
+    <button @click="showAutorisation">Autorisation</button>
 
     <Pagination
       :count="countPage"
@@ -20,7 +19,6 @@
 
 <script>
 import PaymentsDisplay from "../components/PaymentsDisplay.vue";
-import PaymentAdd from "../components/PaymentAdd.vue";
 import Pagination from "../components/Pagination.vue";
 import { mapMutations, mapGetters } from "vuex";
 
@@ -28,12 +26,10 @@ export default {
   name: "Dashboard",
   components: {
     PaymentsDisplay,
-    PaymentAdd,
     Pagination,
   },
   data() {
     return {
-      showForm: false,
       countPage: 1,
       size: 5,
     };
@@ -61,6 +57,16 @@ export default {
     },
     onChangePage(page) {
       this.countPage = page;
+    },
+    showAutorisation() {
+      this.$modal.show("Autorisation", {
+        header: "Autorisation",
+      });
+    },
+    showModalAddWindow() {
+      this.$modal.show("PaymentAdd", {
+        header: "Add Payment Form",
+      });
     },
   },
   computed: {
