@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <button v-for="(item, indx) in items" :key="indx">{{ item.text }}</button>
+  <div class="context" v-if="shown" :style="styles">
+    <button v-for="(item, indx) in items" :key="indx" @click="onClick(item)">
+      {{ item.text }}
+    </button>
   </div>
 </template>
 
@@ -9,29 +11,64 @@ export default {
   name: "ModalMenu",
   data() {
     return {
+      shown: false,
       items: [],
+      xPos: 0,
+      yPos: 0,
     };
   },
   methods: {
-    onShowCntx(items) {
-      console.log(items);
+    onClick(item) {
+      item.action();
+      this.$context.close();
+    },
+    onShowCntx({ items, caller }) {
+      this.items = items;
+      this.shown = true;
+      this.setPosiotion(caller);
     },
     // editItem() {},
     // deleteItem() {},
     onClose() {
-      this.$context.close();
+      this.items = [];
+      this.shown = false;
+    },
+    setPosiotion(caller) {
+      const computedPosition = caller.getBoundingClientRect();
+      this.xPos = computedPosition.left;
+      this.yPos = computedPosition.top;
+    },
+  },
+  computed: {
+    styles() {
+      return {
+        top: `${this.yPos + 30}px`,
+        left: `${this.xPos + 20}px`,
+      };
     },
   },
   mounted() {
-    this.$context.EventBus.$on("show", this.OnShowCntx);
-    this.$context.EventBus.$on("close", this.OnClose);
+    this.$context.EventBus.$on("show", this.onShowCntx);
+    this.$context.EventBus.$on("close", this.onClose);
   },
   beforeDestroy() {
-    this.$context.EventBus.$off("show", this.OnShowCntx);
-    this.$context.EventBus.$off("close", this.OnClose);
+    this.$context.EventBus.$off("show", this.onShowCntx);
+    this.$context.EventBus.$off("close", this.onClose);
   },
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.context {
+  position: absolute;
+  background: #eee;
+  padding: 15px;
+  cursor: pointer;
+  &__item {
+    padding: 5px 0;
+    &:hover {
+      color: red;
+    }
+  }
+}
 </style>

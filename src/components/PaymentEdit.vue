@@ -5,10 +5,9 @@
         {{ option }}
       </option>
     </select>
-    <!-- <input type="text" placeholder="Payment description" v-model="category" /> -->
     <input type="number" placeholder="Payment amount" v-model.number="value" />
     <input type="date" placeholder="Payment date" v-model="date" />
-    <button @click="addItem">ADD +</button>
+    <button @click="editItem">Edit</button>
   </div>
 </template>
 
@@ -16,11 +15,10 @@
 import { mapMutations, mapActions } from "vuex";
 
 export default {
-  name: "PaymentAdd",
+  name: "PaymentEdit",
   props: {
     list: {
-      type: Array,
-      default: () => [],
+      type: Object,
     },
   },
   data: () => ({
@@ -29,7 +27,6 @@ export default {
     date: "",
     id: "",
   }),
-
   computed: {
     getCurrentDate() {
       const today = new Date();
@@ -44,30 +41,30 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["addDataToPaymentsList"]),
+    ...mapMutations(["editPayment"]),
     ...mapActions(["fetchCategoryList"]),
-    addItem() {
+    editItem() {
       const newItem = {
         date: this.date || this.getCurrentDate,
         category: this.category,
         value: Number(this.value),
-        id: this.$store.getters.getPaymentsList.length + 1,
+        id: this.id,
       };
-      console.log(this.list);
-      this.addDataToPaymentsList(newItem);
+      // this.list.push(newItem);
+      this.editPayment(newItem);
     },
   },
   created() {
-    if (this.$route.params?.category) {
+    if (this.list) {
       const userItem = {
-        date: this.getCurrentDate,
-        category: this.$route.params.category,
-        value: Number(this.$route.query.value) || 0,
+        date: this.list.date || this.getCurrentDate,
+        category: this.list.category,
+        value: Number(this.list.value) || 0,
+        id: this.list.id,
       };
-      (this.category = userItem.category), (this.value = userItem.value);
-      this.addDataToPaymentsList(userItem);
-      this.$router.push("/");
-      console.log(userItem);
+      (this.category = userItem.category),
+        (this.value = userItem.value),
+        (this.id = userItem.id);
     }
   },
 };

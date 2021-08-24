@@ -2,8 +2,7 @@
   <div class="wrapper">
     <div class="header">{{ modalSettings.header }}</div>
 
-    <component :is="modalSettings.name" />
-
+    <component :is="modalSettings.name" :list="modalSettings.list" />
     <div class="footer">
       <button @click="closeOnclick">Close</button>
     </div>
@@ -13,11 +12,13 @@
 <script>
 import PaymentAdd from "./PaymentAdd.vue";
 import Autorisation from "./Autorisation.vue";
+import PaymentEdit from "./PaymentEdit.vue";
 
 export default {
   components: {
     PaymentAdd,
     Autorisation,
+    PaymentEdit,
   },
   props: {
     modalSettings: Object,

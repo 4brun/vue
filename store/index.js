@@ -22,6 +22,19 @@ export default new Vuex.Store({
             payload = [payload]
          }
          state.categoryList.push(...payload)
+      },
+      editPayment(state, payload) {
+         //const itemId = state.paymentsList.find(item => item.id === payload.id).id - 1 // находим id - 1 -- это индекс в массиве
+         state.paymentsList = state.paymentsList.map(o => {
+            if (o.id === payload.id) {
+               return payload
+            }
+            return o;
+         })
+      },
+      deletePayment(state, id) {
+         state.paymentsList = state.paymentsList.filter(x => x.id !== id)
+         console.log(id);
       }
    },
    getters: {
@@ -39,16 +52,19 @@ export default new Vuex.Store({
                      date: '28.03.2020',
                      category: 'Food',
                      value: 169,
+                     id: 1
                   },
                   {
                      date: '24.03.2020',
                      category: 'Transport',
                      value: 360,
+                     id: 2
                   },
                   {
                      date: '24.03.2020',
                      category: 'Food',
                      value: 532,
+                     id: 3
                   },
                ])
             }, 0)

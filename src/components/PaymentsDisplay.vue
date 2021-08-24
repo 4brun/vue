@@ -9,11 +9,11 @@
     </div>
 
     <div class="item" v-for="(item, index) in list" :key="index">
-      <span>{{ index + 1 }}</span>
+      <span>{{ item.id }}</span>
       <span>{{ item.date }}</span>
       <span>{{ item.category }}</span>
       <span>{{ item.value }}</span>
-      <span @click="modalMenu()">...</span>
+      <span @click="modalMenu($event, item)">...</span>
     </div>
   </div>
 </template>
@@ -28,22 +28,25 @@ export default {
     },
   },
   methods: {
-    modalMenu() {
+    modalMenu(event, item) {
       const items = [
         {
           text: "Редактировать",
           action: () => {
-            console.log("edit");
+            this.$modal.show("PaymentEdit", {
+              header: "Edit Form",
+              list: item,
+            });
           },
         },
         {
           text: "Удалить",
           action: () => {
-            console.log("delete");
+            this.$store.commit("deletePayment", item.id);
           },
         },
       ];
-      this.$context.show({ items });
+      this.$context.show({ event, items });
     },
   },
   computed: {
