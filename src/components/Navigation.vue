@@ -3,7 +3,8 @@
     <header>
       <router-link to="/dashboard">Dashboard</router-link> /
       <router-link to="/about">About</router-link> /
-      <router-link to="/Page404">404</router-link>
+      <router-link to="/Page404">404</router-link> /
+      <router-link to="/calculator">Calculator</router-link>
     </header>
     <router-view></router-view>
   </div>

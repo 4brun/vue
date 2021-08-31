@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard.vue";
 import About from "../pages/About";
 import Page404 from "../pages/Page404"
 import PaymentAdd from "../components/PaymentAdd"
+import Calculator from "../components/Calculator"
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ const router = new Router({
          path: '/about',
          component: About,
          name: 'About'
+      },
+      {
+         path: '/calculator',
+         component: Calculator,
+         name: 'Calculator'
       },
       {
          path: '/Page404',
