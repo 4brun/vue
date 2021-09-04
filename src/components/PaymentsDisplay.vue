@@ -1,21 +1,21 @@
 <template>
-  <div class="list">
-    <div>Totoal Value: {{ getFullvalue }}</div>
-    <div class="itemHead">
-      <span>#</span>
-      <span>Date</span>
-      <span>Category</span>
-      <span>Value</span>
-    </div>
+  <v-container>
+    <!-- <div>Totoal Value: {{ getFullvalue }}</div> -->
+    <v-row class="font-weight-bold item">
+      <v-col cols="1">#</v-col>
+      <v-col cols="4">Date</v-col>
+      <v-col cols="5">Category</v-col>
+      <v-col cols="2">Value</v-col>
+    </v-row>
 
-    <div class="item" v-for="(item, index) in list" :key="index">
-      <span>{{ item.id }}</span>
-      <span>{{ item.date }}</span>
-      <span>{{ item.category }}</span>
-      <span>{{ item.value }}</span>
-      <span @click="modalMenu($event, item)">...</span>
-    </div>
-  </div>
+    <v-row v-for="item in list" :key="item.id" class="item">
+      <v-col cols="1">{{ item.id }}</v-col>
+      <v-col cols="4">{{ item.date }}</v-col>
+      <v-col cols="5">{{ item.category }}</v-col>
+      <v-col cols="2">{{ item.value }}</v-col>
+      <!-- <v-col @click="modalMenu($event, item)">...</v-col> -->
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -58,7 +58,7 @@ export default {
 </script>
 
 <style>
-.list {
+/* .list {
   display: grid;
 }
 .item {
@@ -71,5 +71,8 @@ export default {
   display: grid;
   font-weight: 600;
   grid-template-columns: 0.25fr 1fr 1fr 1fr 0.25fr;
+} */
+.item {
+  border-bottom: 1px solid #a3a3a3;
 }
 </style>

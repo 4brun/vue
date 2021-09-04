@@ -18,10 +18,7 @@ export default new Vuex.Store({
          state.paymentsList.push(payload)
       },
       setCatigories(state, payload) {
-         if (!Array.isArray(payload)) {
-            payload = [payload]
-         }
-         state.categoryList.push(...payload)
+         state.categoryList = [...state.categoryList, ...payload]
       },
       editPayment(state, payload) {
          //const itemId = state.paymentsList.find(item => item.id === payload.id).id - 1 // находим id - 1 -- это индекс в массиве
@@ -62,9 +59,45 @@ export default new Vuex.Store({
                   },
                   {
                      date: '24.03.2020',
-                     category: 'Food',
+                     category: 'Education',
                      value: 532,
                      id: 3
+                  },
+                  {
+                     date: '28.03.2020',
+                     category: 'Food',
+                     value: 169,
+                     id: 4
+                  },
+                  {
+                     date: '24.03.2020',
+                     category: 'Transport',
+                     value: 360,
+                     id: 5
+                  },
+                  {
+                     date: '24.03.2020',
+                     category: 'Other',
+                     value: 532,
+                     id: 6
+                  },
+                  {
+                     date: '28.03.2020',
+                     category: 'Education',
+                     value: 169,
+                     id: 7
+                  },
+                  {
+                     date: '24.03.2020',
+                     category: 'Education',
+                     value: 360,
+                     id: 8
+                  },
+                  {
+                     date: '24.03.2020',
+                     category: 'Food',
+                     value: 532,
+                     id: 9
                   },
                ])
             }, 0)
@@ -77,7 +110,7 @@ export default new Vuex.Store({
          return new Promise((resolve) => {
 
             setTimeout(() => {
-               resolve(['Food', 'Transport', 'Education', 'Entertainment'])
+               resolve(['Food', 'Transport', 'Education', 'Entertainment', 'Other'])
             }, 1000)
          })
             .then(res => {

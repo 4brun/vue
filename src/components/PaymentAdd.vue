@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <select v-model="category">
-      <option v-for="option in options" :value="option" :key="option">
-        {{ option }}
-      </option>
-    </select>
-    <!-- <input type="text" placeholder="Payment description" v-model="category" /> -->
-    <input type="number" placeholder="Payment amount" v-model.number="value" />
-    <input type="date" placeholder="Payment date" v-model="date" />
-    <button @click="addItem">ADD +</button>
-  </div>
+  <v-card class="text-left pa-8">
+    <v-select v-model="category" label="category" :items="options" />
+    <v-text-field type="number" v-model.number="value" label="value" />
+    <v-text-field type="date" v-model="date" label="date" />
+    <v-btn color="teal" dark @click="addItem">ADD +</v-btn>
+  </v-card>
 </template>
 
 <script>
@@ -17,12 +12,12 @@ import { mapMutations, mapActions } from "vuex";
 
 export default {
   name: "PaymentAdd",
-  props: {
-    list: {
-      type: Array,
-      default: () => [],
-    },
-  },
+  // props: {
+  //   list: {
+  //     type: Array,
+  //     default: () => [],
+  //   },
+  // },
   data: () => ({
     category: "",
     value: "",
@@ -53,11 +48,12 @@ export default {
         value: Number(this.value),
         id: this.$store.getters.getPaymentsList.length + 1,
       };
-      console.log(this.list);
+      // console.log(this.list);
       this.addDataToPaymentsList(newItem);
     },
   },
-  created() {
+  async created() {
+    await this.fetchCategoryList();
     if (this.$route.params?.category) {
       const userItem = {
         date: this.getCurrentDate,
@@ -67,7 +63,7 @@ export default {
       (this.category = userItem.category), (this.value = userItem.value);
       this.addDataToPaymentsList(userItem);
       this.$router.push("/");
-      console.log(userItem);
+      // console.log(userItem);
     }
   },
 };
