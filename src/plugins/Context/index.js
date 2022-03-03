@@ -7,7 +7,6 @@ export default {
       this.installed = true;
       this.caller = null;
 
-
       Vue.prototype.$context = {
 
          EventBus: new Vue(),

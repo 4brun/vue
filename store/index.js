@@ -10,8 +10,6 @@ export default new Vuex.Store({
    },
    mutations: {
       setPaymentsListData(state, payload) {
-         // Vue.set(state.paymentsList, 0, payload)
-
          state.paymentsList = [...payload, ...state.paymentsList]
       },
       addDataToPaymentsList(state, payload) {
@@ -24,7 +22,6 @@ export default new Vuex.Store({
          state.categoryList.push(...payload)
       },
       editPayment(state, payload) {
-         //const itemId = state.paymentsList.find(item => item.id === payload.id).id - 1 // находим id - 1 -- это индекс в массиве
          state.paymentsList = state.paymentsList.map(o => {
             if (o.id === payload.id) {
                return payload
@@ -75,7 +72,6 @@ export default new Vuex.Store({
       },
       fetchCategoryList({ commit }) {
          return new Promise((resolve) => {
-
             setTimeout(() => {
                resolve(['Food', 'Transport', 'Education', 'Entertainment'])
             }, 1000)

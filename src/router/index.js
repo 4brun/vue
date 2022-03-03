@@ -38,11 +38,6 @@ const router = new Router({
          name: 'Calculator'
       },
       {
-         path: '/Page404',
-         component: Page404,
-         name: '404'
-      },
-      {
          path: '*',
          component: Page404
       },

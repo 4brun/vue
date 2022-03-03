@@ -27,8 +27,6 @@ export default {
       this.shown = true;
       this.setPosiotion(caller);
     },
-    // editItem() {},
-    // deleteItem() {},
     onClose() {
       this.items = [];
       this.shown = false;
