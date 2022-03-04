@@ -1,72 +1,60 @@
 <template>
-  <div>
-    <main>
-      <button @click="showModalAddWindow">ADD NEW COAST +</button>
-      <div class="content">
-        <PaymentsDisplay :list="newPaymentList" />
-      </div>
-    </main>
-    <button @click="showAutorisation">Autorisation</button>
+  <v-container>
+    <h2 class="mb-4">My personal coasts</h2>
+    <v-row>
+      <v-col cols="8">
+        <main>
+          <v-dialog v-model="dialog" width="500">
+            <template v-slot:activator="{ on }">
+              <v-btn color="teal" v-on="on" dark>
+                ADD NEW COAST
+                <v-icon right>mdi-plus</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <payment-form @close="dialog = false" v-bind:header="header"/>
+            </v-card>
+          </v-dialog>
+          <PaymentsDisplay :list="newPaymentList" />
+        </main>
 
-    <Pagination
-      :count="countPage"
-      :size="size"
-      :list="paymentsList"
-      @paginate="onChangePage"
-    />
-  </div>
+        <Pagination
+          :size="size"
+          :list="paymentsList"
+          @paginate="onChangePage"
+        />
+      </v-col>
+      <v-col cols="4"> chart </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import PaymentsDisplay from "../components/PaymentsDisplay.vue";
 import Pagination from "../components/Pagination.vue";
 import { mapMutations, mapGetters } from "vuex";
+import PaymentForm from "../components/PaymentForm.vue";
 
 export default {
   name: "Dashboard",
   components: {
     PaymentsDisplay,
     Pagination,
+    PaymentForm,
   },
   data() {
     return {
       countPage: 1,
       size: 5,
+      dialog: false,
+      header: "Add Payment Form",
     };
   },
   methods: {
     ...mapMutations(["setPaymentsListData"]),
-    fetchData() {
-      return [
-        //   {
-        //     date: "28.03.2020",
-        //     category: "Food",
-        //     value: 169,
-        //   },
-        //   {
-        //     date: "24.03.2020",
-        //     category: "Transport",
-        //     value: 360,
-        //   },
-        //   {
-        //     date: "24.03.2020",
-        //     category: "Food",
-        //     value: 532,
-        //   },
-      ];
-    },
+
     onChangePage(page) {
       this.countPage = page;
-    },
-    showAutorisation() {
-      this.$modal.show("Autorisation", {
-        header: "Autorisation",
-      });
-    },
-    showModalAddWindow() {
-      this.$modal.show("PaymentAdd", {
-        header: "Add Payment Form",
-      });
     },
   },
   computed: {
@@ -82,9 +70,8 @@ export default {
     },
   },
   async created() {
-    // this.paymentsList = this.fetchData();
-    await this.setPaymentsListData(this.fetchData());
     this.$store.dispatch("fetchData");
+    await this.setPaymentsListData();
     if (this.$route.params?.page) {
       this.onChangePage(this.$route.params.page);
     }

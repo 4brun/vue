@@ -4,8 +4,7 @@ import Router from "vue-router";
 import Dashboard from "../pages/Dashboard.vue";
 import About from "../pages/About";
 import Page404 from "../pages/Page404"
-import PaymentAdd from "../components/PaymentAdd"
-import Calculator from "../components/Calculator"
+import PaymentForm from "../components/PaymentForm"
 
 Vue.use(Router);
 
@@ -33,23 +32,18 @@ const router = new Router({
          name: 'About'
       },
       {
-         path: '/calculator',
-         component: Calculator,
-         name: 'Calculator'
-      },
-      {
          path: '*',
          component: Page404
       },
       {
          path: '/add/payment/:category',
-         component: PaymentAdd,
-         name: 'PaymentAdd'
+         component: PaymentForm,
+         name: 'PaymentForm'
       },
       {
          path: '/add/payment/:category?value=:value',
-         component: PaymentAdd,
-         name: 'PaymentAdd'
+         component: PaymentForm,
+         name: 'PaymentForm'
       }
    ]
 })

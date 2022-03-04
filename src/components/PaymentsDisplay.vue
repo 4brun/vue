@@ -1,26 +1,65 @@
 <template>
-  <div class="list">
-    <div>Totoal Value: {{ getFullvalue }}</div>
-    <div class="itemHead">
-      <span>#</span>
-      <span>Date</span>
-      <span>Category</span>
-      <span>Value</span>
-    </div>
+  <v-container class="container">
+    <v-row>
+      <h4>Totoal Value: {{ getFullvalue }}</h4>
+    </v-row>
+    <v-row class="font-weight-bold">
+      <v-col cols="1">#</v-col>
+      <v-col cols="3">Date</v-col>
+      <v-col cols="5">Category</v-col>
+      <v-col>Value</v-col>
+    </v-row>
 
-    <div class="item" v-for="(item, index) in list" :key="index">
-      <span>{{ item.id }}</span>
-      <span>{{ item.date }}</span>
-      <span>{{ item.category }}</span>
-      <span>{{ item.value }}</span>
-      <span @click="modalMenu($event, item)">...</span>
-    </div>
-  </div>
+    <v-row v-for="(item, index) in list" :key="index">
+      <v-col cols="1">{{ item.id }}</v-col>
+      <v-col cols="3">{{ item.date }}</v-col>
+      <v-col cols="5">{{ item.category }}</v-col>
+      <v-col cols="2">{{ item.value }}</v-col>
+      <v-menu min-width="350" offset-y close-on-content-click>
+        <template v-slot:activator="{ on }">
+          <v-col cols="1" v-on="on">
+            <v-icon right class="edit">mdi-pencil</v-icon>
+          </v-col>
+        </template>
+
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>
+              <v-dialog v-model="dialog" width="500">
+                <template v-slot:activator="{ on }">
+                  <v-btn plain v-on="on"> Редактировать </v-btn>
+                </template>
+                <v-card>
+                  <payment-form
+                    :list="item"
+                    @close="dialog = false"
+                    :header="header"
+                  />
+                </v-card>
+              </v-dialog>
+            </v-list-item-title>
+            <v-list-item-title>
+              <v-btn plain @click="deletePayment(item.id)">Удалить</v-btn>
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
+import PaymentForm from "./PaymentForm.vue";
+
 export default {
+  components: { PaymentForm },
   name: "PaymentsDisplay",
+  data() {
+    return {
+      dialog: false,
+      header: "Edit Payment Form",
+    };
+  },
   props: {
     list: {
       type: Array,
@@ -28,25 +67,8 @@ export default {
     },
   },
   methods: {
-    modalMenu(event, item) {
-      const items = [
-        {
-          text: "Редактировать",
-          action: () => {
-            this.$modal.show("PaymentEdit", {
-              header: "Edit Form",
-              list: item,
-            });
-          },
-        },
-        {
-          text: "Удалить",
-          action: () => {
-            this.$store.commit("deletePayment", item.id);
-          },
-        },
-      ];
-      this.$context.show({ event, items });
+    deletePayment(id) {
+      this.$store.commit("deletePayment", id);
     },
   },
   computed: {
@@ -57,19 +79,14 @@ export default {
 };
 </script>
 
-<style>
-.list {
-  display: grid;
+<style lang="scss" scoped>
+.container {
+  margin-top: 20px;
 }
-.item {
-  display: grid;
-  grid-template-columns: 0.25fr 1fr 1fr 1fr 0.25fr;
-  margin: 10px 0;
-  border-bottom: 1px solid rgb(194, 194, 194);
-}
-.itemHead {
-  display: grid;
-  font-weight: 600;
-  grid-template-columns: 0.25fr 1fr 1fr 1fr 0.25fr;
+.edit {
+  cursor: pointer;
+  &:hover {
+    color: black;
+  }
 }
 </style>

@@ -42,7 +42,6 @@ export default new Vuex.Store({
    actions: {
       fetchData({ commit }) {
          return new Promise((resolve) => {
-
             setTimeout(() => {
                resolve([
                   {
@@ -64,7 +63,7 @@ export default new Vuex.Store({
                      id: 3
                   },
                ])
-            }, 0)
+            }, 1000)
          })
             .then(res => {
                commit('setPaymentsListData', res)
@@ -74,7 +73,7 @@ export default new Vuex.Store({
          return new Promise((resolve) => {
             setTimeout(() => {
                resolve(['Food', 'Transport', 'Education', 'Entertainment'])
-            }, 1000)
+            }, 0)
          })
             .then(res => {
                commit('setCatigories', res)
